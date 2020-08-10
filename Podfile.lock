@@ -1,0 +1,69 @@
+PODS:
+  - Alamofire (5.2.2)
+  - Differentiator (4.0.1)
+  - HandyJSON (5.0.2)
+  - Kanna (5.2.2)
+  - Kingfisher (5.14.1):
+    - Kingfisher/Core (= 5.14.1)
+  - Kingfisher/Core (5.14.1)
+  - Moya/Core (14.0.0):
+    - Alamofire (~> 5.0)
+  - Moya/RxSwift (14.0.0):
+    - Moya/Core
+    - RxSwift (~> 5.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
+  - SwiftyJSON (5.0.0)
+  - URLNavigator (2.3.0)
+
+DEPENDENCIES:
+  - HandyJSON (~> 5.0.1)
+  - Kanna (~> 5.2.2)
+  - Kingfisher
+  - Moya/RxSwift (~> 14.0)
+  - RxCocoa (~> 5)
+  - RxDataSources (~> 4.0)
+  - RxSwift (~> 5)
+  - SwiftyJSON (~> 5.0.0)
+  - URLNavigator
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Differentiator
+    - HandyJSON
+    - Kanna
+    - Kingfisher
+    - Moya
+    - RxCocoa
+    - RxDataSources
+    - RxRelay
+    - RxSwift
+    - SwiftyJSON
+    - URLNavigator
+
+SPEC CHECKSUMS:
+  Alamofire: 814429acc853c6c54ff123fc3d2ef66803823ce0
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
+  HandyJSON: 9e4e236f5d2dbefad5155a77417bbea438201c03
+  Kanna: 2c4eddaaa4bfb9a1ed19e53c0b3d42ef02838046
+  Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
+  Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  URLNavigator: 2593c0e2d293732ec5c44503cf54dceba1a68085
+
+PODFILE CHECKSUM: 0d07a1a783a41ba872c3c737c9c85175c27b26b6
+
+COCOAPODS: 1.9.1
