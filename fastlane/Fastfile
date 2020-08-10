@@ -1,0 +1,59 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "build a new debug version"
+  lane :testApp do
+
+    scheme_name = "RxSwift-Novel"
+    # 导出路径
+    output_directory = "./fastlane/IPA_Info"
+    # 导出名称 
+    output_name = "#{scheme_name}_#{Time.now.strftime('%Y%m%d%H%M%S')}.ipa"
+
+    automatic_code_signing(
+      # 工程文件所在路径
+      path: "RxSwift-Novel.xcodeproj",
+      # 是否使用自动签名，这里如果是打包的话应该一般都为false吧，默认也是false
+      use_automatic_signing: true,
+      # 打包的team ID， 也就是打包使用的证书中的team ID，这个如果不知道是什么的话可以在Xcode中设置好签名用的描述文件后到xcodeproj下的pbxproj文件中搜索“DEVELOPMENT_TEAM”，它的值就是了
+      team_id: "AD52DTP46S",
+      # 这个就不用说了，需要修改的targets
+      targets: "RxSwift-Novel",
+      # 用哪种方式打包“iPhone Developer”还是“iPhone Distribution”
+      code_sign_identity: "iPhone Developer",
+      # 描述文件名称， 也就是使用哪个描述文件打包
+      # profile_name: "cn.dahelive.cailifang"
+    )
+
+    build_ios_app(
+      workspace: "RxSwift-Novel.xcworkspace",                   # 使用 Cocoapods 后的工程文件路径
+      configuration: "Release",                             # 编译APP是的配置,默认是 Release,可选 Debug
+      scheme: scheme_name,                                  # 项目的白名单,在 Manage schemes 中将其设置为 shared 状态
+      silent: true,                                         # 编译时隐藏不必要的信息,默认是 false
+      clean: true,                                          # 是否清空以前的编译信息
+      output_directory: output_directory,                   # 导出路径
+      output_name: output_name,                             # 导出名称
+      # export_xcargs: "-allowProvisioningUpdates"
+      export_method: "development",                         # 打包的类型: app-store, ad-hoc, package, enterprise, development, developer-id
+      buildlog_path: "./fastlane/fastlanelog",            # 打包日志输出文件夹
+    )
+    
+    pgyer(api_key: "fa6b27f9748b39d1254488c27f3faddc", user_key: "f2519c2a713d8a9f29f8b581da6bcf67", install_type: "2", password: "123456")
+
+  end
+end

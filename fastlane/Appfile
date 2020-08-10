@@ -1,0 +1,6 @@
+app_identifier("yu.qiao.RxSwift-Novel") # The bundle identifier of your app
+apple_id("iosapp@dahecube.com") # Your Apple email address
+
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile
