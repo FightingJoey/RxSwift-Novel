@@ -74,9 +74,11 @@ class SectionInfoViewController: UIViewController {
                 } else {
                     self?.tableView.switchRefreshFooter(to: .noMoreData)
                 }
+                self?.tableView.footer?.isHidden = false
             }
         }).disposed(by: bag)
 
+        HUD.show(.progress)
         getSectionContent(path)
         
         tableView.addRefreshFooter(self) { [weak self] in
@@ -95,10 +97,10 @@ class SectionInfoViewController: UIViewController {
                 }
             }
         }
+        tableView.footer?.isHidden = true
     }
     
     func getSectionContent(_ path: String) {
-        HUD.show(.progress)
         _ = network.rx.request(.page(page: path))
             .flatMap { res -> Single<[SectionModel<String,SectionInfo>]> in
                 let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))

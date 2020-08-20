@@ -30,31 +30,16 @@ class SearchViewController: UIViewController {
         }
     )
     
-    var viewModel: SearchViewModel!
+    let keywords = PublishSubject<String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let dataSource = self.dataSource
+        
         tableView.rx
             .setDelegate(self)
             .disposed(by: bag)
-        
-        let dataSource = self.dataSource
-        
-//        let keyword = searchBar.rx.searchButtonClicked.asDriver().withLatestFrom(searchBar.rx.text.orEmpty.asDriver())
-//        let keyword = Driver<String>.combineLatest(searchBar.rx.searchButtonClicked.asDriver(), searchBar.rx.text.orEmpty.asDriver()) { (s1, s2) in
-//            return s2
-//        }
-        viewModel = SearchViewModel(keyword: searchBar.rx.text.orEmpty.asDriver())
-        viewModel.searchResultList.drive(tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
-        viewModel.searchResultList.drive(onNext: { (_) in
-            HUD.hide(animated: true)
-        }).disposed(by: bag)
-        
-        searchBar.rx.searchButtonClicked.subscribe(onNext: { [weak self] in
-            self?.searchBar.resignFirstResponder()
-        }).disposed(by: bag)
-        
         tableView.rx
             .itemSelected
             .map { indexPath in
@@ -68,6 +53,36 @@ class SearchViewController: UIViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: bag)
+        
+        let searchResultList: Driver<[SectionModel<String, NovelInfo>]> = keywords.asDriver(onErrorJustReturn: "").filter { text in
+            if text.count == 0 {
+                return true
+            }
+            let match: String = "(^[\\u4e00-\\u9fa5]+$)"
+            let predicate = NSPredicate(format: "SELF matches %@", match)
+            return predicate.evaluate(with: text)
+        }.flatMapLatest({ keyword in
+            if keyword.count == 0 {
+                return Driver.just([SectionModel(model: "", items: [])])
+            }
+            HUD.show(.progress)
+            return network.rx.request(.search(keyword: keyword)).mapNovelInfo().asDriver(onErrorJustReturn: [NovelInfo]()).map { res in
+                return [SectionModel(model: keyword, items: res)]
+            }
+        })
+        searchResultList.drive(tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
+        searchResultList.drive(onNext: { (_) in
+            HUD.hide(animated: true)
+        }).disposed(by: bag)
+        
+        searchBar.rx.text.orEmpty.filter { $0.count == 0 }.subscribe(onNext: { [weak self] (_) in
+            self?.keywords.onNext("")
+        }).disposed(by: bag)
+        
+        searchBar.rx.searchButtonClicked.subscribe(onNext: { [weak self] in
+            self?.searchBar.resignFirstResponder()
+            self?.keywords.onNext(self?.searchBar.text ?? "")
+        }).disposed(by: bag)
         
     }
     

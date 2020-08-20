@@ -76,10 +76,13 @@ class AlreadyListViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.title = "已读列表"
         
+        HUD.show(.progress)
+        
         let dataSource = self.dataSource
         
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: .grouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = 64
         view.addSubview(tableView)
         
         tableView.rx
@@ -127,6 +130,7 @@ class AlreadyListViewController: UIViewController {
         }
         list = result
         items.onNext([SectionModel(model: "", items: list)])
+        HUD.hide(animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {

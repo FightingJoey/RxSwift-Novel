@@ -49,6 +49,7 @@ class SectionListViewController: UIViewController {
         }
         
         subject.subscribe(onNext: { (list) in
+            HUD.hide(animated: true)
             if self.currentIndexPath != 0, list.count > 0 {
                 DispatchQueue.main.async {
                     self.tableView.scrollToRow(at: IndexPath(row: self.currentIndexPath, section: 0), at: .bottom, animated: true)
@@ -61,12 +62,14 @@ class SectionListViewController: UIViewController {
         
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: .grouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.rowHeight = 64
         view.addSubview(tableView)
         
         tableView.rx
             .setDelegate(self)
             .disposed(by: bag)
         
+        HUD.show(.progress)
         network.rx.request(.page(page: path)).flatMap { res -> Single<[SectionInfo]> in
             let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
             let str = String(data: res.data, encoding: String.Encoding(rawValue: coding))
