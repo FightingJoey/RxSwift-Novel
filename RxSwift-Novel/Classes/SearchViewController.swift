@@ -35,12 +35,25 @@ class SearchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        searchBar.text = "佛本是道"
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
         
         let dataSource = self.dataSource
         
+//        let keyword = searchBar.rx.searchButtonClicked.asDriver().withLatestFrom(searchBar.rx.text.orEmpty.asDriver())
+//        let keyword = Driver<String>.combineLatest(searchBar.rx.searchButtonClicked.asDriver(), searchBar.rx.text.orEmpty.asDriver()) { (s1, s2) in
+//            return s2
+//        }
         viewModel = SearchViewModel(keyword: searchBar.rx.text.orEmpty.asDriver())
         viewModel.searchResultList.drive(tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
+        viewModel.searchResultList.drive(onNext: { (_) in
+            HUD.hide(animated: true)
+        }).disposed(by: bag)
+        
+        searchBar.rx.searchButtonClicked.subscribe(onNext: { [weak self] in
+            self?.searchBar.resignFirstResponder()
+        }).disposed(by: bag)
         
         tableView.rx
             .itemSelected
@@ -56,9 +69,6 @@ class SearchViewController: UIViewController {
             })
             .disposed(by: bag)
         
-        tableView.rx
-            .setDelegate(self)
-            .disposed(by: bag)
     }
     
     @IBAction func alreadyBtnClicked(_ sender: Any) {

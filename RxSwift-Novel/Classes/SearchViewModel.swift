@@ -19,7 +19,18 @@ class SearchViewModel {
     let searchResultList: Driver<[SectionModel<String, NovelInfo>]>
 
     init(keyword: Driver<String>) {
-        searchResultList = keyword.flatMapLatest({ keyword in
+        searchResultList = keyword.filter({ (text) in
+            if text.count == 0 {
+                return true
+            }
+            let match: String = "(^[\\u4e00-\\u9fa5]+$)"
+            let predicate = NSPredicate(format: "SELF matches %@", match)
+            return predicate.evaluate(with: text)
+        }).flatMapLatest({ keyword in
+            if keyword.count == 0 {
+                return Driver.just([SectionModel(model: "", items: [])])
+            }
+            HUD.show(.progress)
             return network.rx.request(.search(keyword: keyword)).mapNovelInfo().asDriver(onErrorJustReturn: [NovelInfo]()).map { res in
                 return [SectionModel(model: keyword, items: res)]
             }

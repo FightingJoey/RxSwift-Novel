@@ -63,8 +63,13 @@ class AlreadyListViewController: UIViewController {
         },
         titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].model
+        },
+        canEditRowAtIndexPath: { _,_ in
+            return true
         }
     )
+    
+    var list: [NovelInfo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +90,15 @@ class AlreadyListViewController: UIViewController {
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: bag)
         
+        tableView.rx.itemDeleted.asObservable().subscribe(onNext: { [weak self] (index) in
+            if let model = Defaults[\.alreadyReadList], let title = self?.list[index.row].title {
+                var muModel = model
+                muModel.data.removeValue(forKey: title)
+                Defaults[\.alreadyReadList] = muModel
+            }
+            self?.getList()
+        }).disposed(by: bag)
+                
         tableView.rx
             .itemSelected
             .map { indexPath in
@@ -104,17 +118,20 @@ class AlreadyListViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
+    func getList() {
         var result = [NovelInfo]()
         if let model = Defaults[\.alreadyReadList] {
             for item in model.data {
                 result.append(item.value)
             }
         }
-        items.onNext([SectionModel(model: "", items: result)])
-
+        list = result
+        items.onNext([SectionModel(model: "", items: list)])
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getList()
     }
 
 }

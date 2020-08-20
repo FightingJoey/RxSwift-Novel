@@ -11,6 +11,9 @@ PODS:
   - Moya/RxSwift (14.0.0):
     - Moya/Core
     - RxSwift (~> 5.0)
+  - NVActivityIndicatorView (5.0.0):
+    - NVActivityIndicatorView/Base (= 5.0.0)
+  - NVActivityIndicatorView/Base (5.0.0)
   - RxCocoa (5.1.1):
     - RxRelay (~> 5)
     - RxSwift (~> 5)
@@ -29,6 +32,7 @@ DEPENDENCIES:
   - Kanna (~> 5.2.2)
   - Kingfisher
   - Moya/RxSwift (~> 14.0)
+  - NVActivityIndicatorView
   - RxCocoa (~> 5)
   - RxDataSources (~> 4.0)
   - RxSwift (~> 5)
@@ -43,6 +47,7 @@ SPEC REPOS:
     - Kanna
     - Kingfisher
     - Moya
+    - NVActivityIndicatorView
     - RxCocoa
     - RxDataSources
     - RxRelay
@@ -57,6 +62,7 @@ SPEC CHECKSUMS:
   Kanna: 2c4eddaaa4bfb9a1ed19e53c0b3d42ef02838046
   Kingfisher: 8050bc6f7f68cbf3908bd04df7ccbac188f6d6d6
   Moya: 5b45dacb75adb009f97fde91c204c1e565d31916
+  NVActivityIndicatorView: f109ed069924ac1b4adbc1ae9cfaeac0be1d6c2c
   RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
   RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
   RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
@@ -64,6 +70,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   URLNavigator: 2593c0e2d293732ec5c44503cf54dceba1a68085
 
-PODFILE CHECKSUM: 0d07a1a783a41ba872c3c737c9c85175c27b26b6
+PODFILE CHECKSUM: 2f435f6a1535af3f7baa1aba2559c870454320e7
 
 COCOAPODS: 1.9.1

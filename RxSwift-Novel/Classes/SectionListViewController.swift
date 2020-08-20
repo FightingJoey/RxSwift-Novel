@@ -35,11 +35,26 @@ class SectionListViewController: UIViewController {
     )
     
     var sections: [SectionInfo] = []
+    
+    let subject = PublishSubject<[SectionInfo]>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         navigationItem.title = novelTitle
+        
+        let model = Defaults[\.alreadyReadList] ?? AlreadyModel()
+        if let novel = model.data[self.novelTitle] {
+            currentIndexPath = novel.currentIndex
+        }
+        
+        subject.subscribe(onNext: { (list) in
+            if self.currentIndexPath != 0, list.count > 0 {
+                DispatchQueue.main.async {
+                    self.tableView.scrollToRow(at: IndexPath(row: self.currentIndexPath, section: 0), at: .bottom, animated: true)
+                }
+            }
+        }).disposed(by: bag)
         
         let dataSource = self.dataSource
         let path = self.path
@@ -70,10 +85,13 @@ class SectionListViewController: UIViewController {
                 results.append(data)
             }
             self.sections = results
+            self.subject.onNext(self.sections)
             return Single.just(results)
-        }.asDriver(onErrorJustReturn: [SectionInfo]()).map { res in
+        }
+        .asDriver(onErrorJustReturn: [SectionInfo]()).map { res in
             return [SectionModel(model: "", items: res)]
-        }.drive(tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
+        }
+        .drive(tableView.rx.items(dataSource: dataSource)).disposed(by: bag)
         
         tableView.rx
             .itemSelected
@@ -85,7 +103,7 @@ class SectionListViewController: UIViewController {
                 vc.path = path + pair.1.path
                 vc.sectionTitle = pair.1.title
                 vc.novelTitle = self.novelTitle
-                
+
                 var model = Defaults[\.alreadyReadList] ?? AlreadyModel()
                 var novel = NovelInfo()
                 novel.title = self.novelTitle
@@ -95,9 +113,9 @@ class SectionListViewController: UIViewController {
                 novel.currentSection = pair.1 as SectionInfo
                 model.data[self.novelTitle] = novel
                 Defaults[\.alreadyReadList] = model
-                
+
                 self.currentIndexPath = pair.0.row
-                
+
                 self.navigationController?.pushViewController(vc, animated: true)
             })
             .disposed(by: bag)
@@ -105,8 +123,13 @@ class SectionListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if currentIndexPath != 0 {
-            tableView.scrollToRow(at: IndexPath(row: currentIndexPath, section: 0), at: .bottom, animated: true)
+        if sections.count > 0 {
+            let model = Defaults[\.alreadyReadList] ?? AlreadyModel()
+            if let novel = model.data[self.novelTitle] {
+                currentIndexPath = novel.currentIndex
+            }
+            sections = sections + []
+            subject.onNext(sections)
         }
     }
     

@@ -24,7 +24,7 @@
             </objects>
             <point key="canvasLocation" x="-1441" y="-35"/>
         </scene>
-        <!--37阅读网-->
+        <!--37小说阅读网-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="RxSwift_Novel" customModuleProvider="target" sceneMemberID="viewController">
@@ -32,7 +32,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ept-wi-jZ7">
+                            <searchBar contentMode="redraw" placeholder="请输入小说名" translatesAutoresizingMaskIntoConstraints="NO" id="ept-wi-jZ7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="HEl-rN-HPT"/>
@@ -75,7 +75,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="37阅读网" id="kpa-XT-eFc">
+                    <navigationItem key="navigationItem" title="37小说阅读网" id="kpa-XT-eFc">
                         <barButtonItem key="rightBarButtonItem" title="已读列表" id="9OJ-MM-hKw">
                             <connections>
                                 <action selector="alreadyBtnClicked:" destination="BYZ-38-t0r" id="NRq-Ng-vBq"/>
