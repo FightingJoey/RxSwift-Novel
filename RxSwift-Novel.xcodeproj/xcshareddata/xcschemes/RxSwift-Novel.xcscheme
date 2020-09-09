@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4A7767B424DBE7CB00DF858D"
-               BuildableName = "37&#x5c0f;&#x8bf4;.app"
+               BuildableName = "37&#x4e2d;&#x6587;&#x7f51;.app"
                BlueprintName = "RxSwift-Novel"
                ReferencedContainer = "container:RxSwift-Novel.xcodeproj">
             </BuildableReference>
@@ -55,7 +55,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A7767B424DBE7CB00DF858D"
-            BuildableName = "37&#x5c0f;&#x8bf4;.app"
+            BuildableName = "37&#x4e2d;&#x6587;&#x7f51;.app"
             BlueprintName = "RxSwift-Novel"
             ReferencedContainer = "container:RxSwift-Novel.xcodeproj">
          </BuildableReference>
@@ -79,7 +79,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4A7767B424DBE7CB00DF858D"
-            BuildableName = "37&#x5c0f;&#x8bf4;.app"
+            BuildableName = "37&#x4e2d;&#x6587;&#x7f51;.app"
             BlueprintName = "RxSwift-Novel"
             ReferencedContainer = "container:RxSwift-Novel.xcodeproj">
          </BuildableReference>

@@ -75,12 +75,16 @@ class SectionInfoViewController: UIViewController {
                     self?.tableView.switchRefreshFooter(to: .noMoreData)
                 }
                 self?.tableView.footer?.isHidden = false
+            } else {
+                self?.tableView.switchRefreshFooter(to: .normal)
+            }
+            if list.count > 0 {
+                DispatchQueue.main.async {
+                    self?.tableView.scrollToRow(at: IndexPath(row: 0, section: list.count-1), at: .top, animated: true)
+                }
             }
         }).disposed(by: bag)
 
-        HUD.show(.progress)
-        getSectionContent(path)
-        
         tableView.addRefreshFooter(self) { [weak self] in
             var model = Defaults[\.alreadyReadList] ?? AlreadyModel()
             if let data = model.data[self?.novelTitle ?? ""] {
@@ -98,6 +102,9 @@ class SectionInfoViewController: UIViewController {
             }
         }
         tableView.footer?.isHidden = true
+        
+        HUD.show(.progress)
+        getSectionContent(path)
     }
     
     func getSectionContent(_ path: String) {
@@ -144,38 +151,4 @@ extension SectionInfoViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0.0001
     }
-    
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: "footer")
-//
-//        let btn = UIButton(type: .system)
-//        btn.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 64)
-//        btn.setTitle("下一章", for: .normal)
-//        btn.rx.tap.subscribe(onNext: { [weak self] in
-//
-//            var model = Defaults[\.alreadyReadList] ?? AlreadyModel()
-//            if let data = model.data[self?.novelTitle ?? ""] {
-//                var novel = data
-//                if novel.currentIndex < data.sections.count - 1 {
-//                    novel.currentIndex = novel.currentIndex + 1
-//                    novel.currentSection = novel.sections[novel.currentIndex]
-//                    model.data[self?.novelTitle ?? ""] = novel
-//                    Defaults[\.alreadyReadList] = model
-//
-//                    let path = novel.path + novel.sections[novel.currentIndex].path
-//                    self?.navigationItem.title = novel.sections[novel.currentIndex].title
-//                    self?.getSectionContent(path)
-//                }
-//            }
-//
-//        }).disposed(by: bag)
-//
-//        footer?.addSubview(btn)
-//
-//        return btn
-//    }
-//
-//    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-//        return 64
-//    }
 }
