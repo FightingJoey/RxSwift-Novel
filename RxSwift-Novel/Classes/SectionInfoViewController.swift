@@ -58,34 +58,10 @@ class SectionInfoViewController: UIViewController {
         tableView.backgroundColor = RGBColor(0xC7EDCC)
         view.addSubview(tableView)
         
-        tableView.rx
-            .setDelegate(self)
-            .disposed(by: bag)
-        
-        items
-            .bind(to: tableView.rx.items(dataSource: dataSource))
-            .disposed(by: bag)
-        
-        items.subscribe(onNext: { [weak self] (list) in
-            let model = Defaults[\.alreadyReadList] ?? AlreadyModel()
-            if let data = model.data[self?.novelTitle ?? ""] {
-                if data.currentIndex < data.sections.count - 1 {
-                    self?.tableView.switchRefreshFooter(to: .normal)
-                } else {
-                    self?.tableView.switchRefreshFooter(to: .noMoreData)
-                }
-                self?.tableView.footer?.isHidden = false
-            } else {
-                self?.tableView.switchRefreshFooter(to: .normal)
-            }
-            if list.count > 0 {
-                DispatchQueue.main.async {
-                    self?.tableView.scrollToRow(at: IndexPath(row: 0, section: list.count-1), at: .top, animated: true)
-                }
-            }
-        }).disposed(by: bag)
-
-        tableView.addRefreshFooter(self) { [weak self] in
+        let btn = UIButton(type: .system)
+        btn.setTitle("下一章", for: .normal)
+        btn.frame = CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: 64)
+        btn.rx.tap.subscribe(onNext: { [weak self] in
             var model = Defaults[\.alreadyReadList] ?? AlreadyModel()
             if let data = model.data[self?.novelTitle ?? ""] {
                 var novel = data
@@ -100,14 +76,30 @@ class SectionInfoViewController: UIViewController {
                     self?.getSectionContent(path)
                 }
             }
-        }
-        tableView.footer?.isHidden = true
+        }).disposed(by: bag)
+        tableView.tableFooterView = btn
         
-        HUD.show(.progress)
+        tableView.rx
+            .setDelegate(self)
+            .disposed(by: bag)
+        
+        items
+            .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: bag)
+        
+        items.subscribe(onNext: { [weak self] (list) in
+            if list.count > 0 {
+                DispatchQueue.main.async {
+                    self?.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
+                }
+            }
+        }).disposed(by: bag)
+        
         getSectionContent(path)
     }
     
     func getSectionContent(_ path: String) {
+        HUD.show(.progress)
         _ = network.rx.request(.page(page: path))
             .flatMap { res -> Single<[SectionModel<String,SectionInfo>]> in
                 let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
@@ -126,7 +118,7 @@ class SectionInfoViewController: UIViewController {
                 return Single.just([SectionModel(model: "", items: results)])
             }.asObservable().subscribe(onNext: { (data) in
                 HUD.hide(animated: true)
-                self.items.accept(self.items.value + data)
+                self.items.accept(data)
             }, onError: { (err) in
                 Dlog(err)
             }, onCompleted: {
@@ -134,10 +126,6 @@ class SectionInfoViewController: UIViewController {
             }, onDisposed: {
                 Dlog("dispose --------")
             })
-
-//            .observeOn(MainScheduler.instance)
-//            .catchErrorJustReturn([SectionModel<String,SectionInfo>]())
-
         
     }
 
