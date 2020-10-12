@@ -22,14 +22,14 @@ extension API: TargetType {
     }
     
     var baseURL: URL {
-        return URL(string: "https://www.37zw.net")!
+        return URL(string: "https://www.biquge.info")!
     }
     
     var path: String {
         switch self {
         case .search(let name):
             let newName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            return "/s/so.php?type=articlename&s=\(newName)"
+            return "/modules/article/search.php?searchkey=\(newName)"
         case .page(let page):
             return "\(page)"
         }

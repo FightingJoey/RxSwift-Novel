@@ -22,41 +22,18 @@ let network = APIManager<API>.defaultService()
 extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
     func mapNovelInfo() -> Single<[NovelInfo]> {
         return flatMap { res -> Single<[NovelInfo]> in
-            let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let str = String(data: res.data, encoding: String.Encoding(rawValue: coding))
-            guard let data = str, let doc = try? HTML(html: data, encoding: .utf8) else {
+            guard let doc = try? HTML(html: res.data, encoding: .utf8) else {
                 return Single.create { single in
                     single(.error(NetError.message(text: "HTML解析错误")))
                     return Disposables.create()
                 }
             }
-            let divs = doc.xpath("//div[@class='novellist']").first!.css("ul > li")
+            let divs = doc.xpath("//table[@class='grid']").first!.css("tr > td")
             var results = [NovelInfo]()
-            for link in divs {
+            for i in 0..<(divs.count / 5) {
+                let link = divs[i*6]
                 var data = NovelInfo()
                 data.title = link.text ?? ""
-                data.path = link.css("a").first?["href"] ?? ""
-                results.append(data)
-            }
-            return Single.just(results)
-        }
-    }
-    
-    func mapNovelSectionList() -> Single<[SectionInfo]> {
-        return flatMap { res -> Single<[SectionInfo]> in
-            let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-            let str = String(data: res.data, encoding: String.Encoding(rawValue: coding))
-            guard let data = str, let doc = try? HTML(html: data, encoding: .utf8) else {
-                return Single.create { single in
-                    single(.error(NetError.message(text: "HTML解析错误")))
-                    return Disposables.create()
-                }
-            }
-            let divs = doc.xpath("//div[@id='list']").first!.css("dl > dd")
-            var results = [SectionInfo]()
-            for link in divs {
-                var data = SectionInfo()
-                data.title = link.css("a").first?.text ?? ""
                 data.path = link.css("a").first?["href"] ?? ""
                 results.append(data)
             }

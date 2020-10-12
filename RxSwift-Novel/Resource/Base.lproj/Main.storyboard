@@ -24,10 +24,10 @@
             </objects>
             <point key="canvasLocation" x="-1441" y="-35"/>
         </scene>
-        <!--37中文网-->
+        <!--笔趣阁-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="_7小说" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="SearchViewController" customModule="笔趣阁" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -75,7 +75,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="37中文网" id="kpa-XT-eFc">
+                    <navigationItem key="navigationItem" title="笔趣阁" id="kpa-XT-eFc">
                         <barButtonItem key="rightBarButtonItem" title="已读列表" id="9OJ-MM-hKw">
                             <connections>
                                 <action selector="alreadyBtnClicked:" destination="BYZ-38-t0r" id="NRq-Ng-vBq"/>

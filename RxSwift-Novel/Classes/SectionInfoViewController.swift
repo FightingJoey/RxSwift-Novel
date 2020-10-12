@@ -102,9 +102,7 @@ class SectionInfoViewController: UIViewController {
         HUD.show(.progress)
         _ = network.rx.request(.page(page: path))
             .flatMap { res -> Single<[SectionModel<String,SectionInfo>]> in
-                let coding  = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(CFStringEncodings.GB_18030_2000.rawValue))
-                let str = String(data: res.data, encoding: String.Encoding(rawValue: coding))
-                guard let data = str, let doc = try? HTML(html: data, encoding: .utf8) else {
+                guard let doc = try? HTML(html: res.data, encoding: .utf8) else {
                     return Single.create { single in
                         single(.error(NetError.message(text: "HTML解析错误")))
                         return Disposables.create()

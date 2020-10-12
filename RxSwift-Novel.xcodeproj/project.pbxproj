@@ -76,7 +76,7 @@
 		3C90021366DB699D8B59DC62 /* Pods-RxSwift-Novel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RxSwift-Novel.debug.xcconfig"; path = "Target Support Files/Pods-RxSwift-Novel/Pods-RxSwift-Novel.debug.xcconfig"; sourceTree = "<group>"; };
 		4A311A5824DFF4A9001E39FE /* SectionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionListViewController.swift; sourceTree = "<group>"; };
 		4A311A5B24E00EBB001E39FE /* SectionInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionInfoViewController.swift; sourceTree = "<group>"; };
-		4A7767B524DBE7CB00DF858D /* 37中文网.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "37中文网.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4A7767B524DBE7CB00DF858D /* 笔趣阁.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "笔趣阁.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4A7767B824DBE7CB00DF858D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4A7767BC24DBE7CB00DF858D /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		4A7767BF24DBE7CB00DF858D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -165,7 +165,7 @@
 		4A7767B624DBE7CB00DF858D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4A7767B524DBE7CB00DF858D /* 37中文网.app */,
+				4A7767B524DBE7CB00DF858D /* 笔趣阁.app */,
 				4A7767CB24DBE7CC00DF858D /* RxSwift-NovelTests.xctest */,
 			);
 			name = Products;
@@ -369,7 +369,7 @@
 			);
 			name = "RxSwift-Novel";
 			productName = "RxSwift-Novel";
-			productReference = 4A7767B524DBE7CB00DF858D /* 37中文网.app */;
+			productReference = 4A7767B524DBE7CB00DF858D /* 笔趣阁.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4A7767CA24DBE7CC00DF858D /* RxSwift-NovelTests */ = {
@@ -727,7 +727,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "yu.qiao.RxSwift-Novel";
-				PRODUCT_NAME = "37中文网";
+				PRODUCT_NAME = "笔趣阁";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -749,7 +749,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "yu.qiao.RxSwift-Novel";
-				PRODUCT_NAME = "37中文网";
+				PRODUCT_NAME = "笔趣阁";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
