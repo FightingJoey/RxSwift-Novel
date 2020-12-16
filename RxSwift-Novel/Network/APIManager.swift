@@ -31,11 +31,13 @@ extension PrimitiveSequence where Trait == SingleTrait, Element == Response {
             let divs = doc.xpath("//table[@class='grid']").first!.css("tr > td")
             var results = [NovelInfo]()
             for i in 0..<(divs.count / 5) {
-                let link = divs[i*6]
-                var data = NovelInfo()
-                data.title = link.text ?? ""
-                data.path = link.css("a").first?["href"] ?? ""
-                results.append(data)
+                if i*6 < divs.count {
+                    let link = divs[i*6]
+                    var data = NovelInfo()
+                    data.title = link.text ?? ""
+                    data.path = link.css("a").first?["href"] ?? ""
+                    results.append(data)
+                }
             }
             return Single.just(results)
         }
