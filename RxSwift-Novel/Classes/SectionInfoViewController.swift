@@ -71,7 +71,8 @@ class SectionInfoViewController: UIViewController {
                     model.data[self?.novelTitle ?? ""] = novel
                     Defaults[\.alreadyReadList] = model
                     
-                    let path = novel.path + novel.sections[novel.currentIndex].path
+                    let path = novel.sections[novel.currentIndex].path
+                    print(path)
                     self?.navigationItem.title = novel.sections[novel.currentIndex].title
                     self?.getSectionContent(path)
                 }

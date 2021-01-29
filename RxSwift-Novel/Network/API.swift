@@ -19,6 +19,7 @@ enum API {
 enum Domain: String {
     case biquge = "https://www.biquge.info"
     case san7 = "https://www.37zw.net"
+    case biqudu = "https://www.biqudu.tv"
 }
 
 extension Domain {
@@ -28,6 +29,8 @@ extension Domain {
             return "/modules/article/search.php?searchkey="
         case .san7:
             return "/s/so.php?type=articlename$s="
+        case .biqudu:
+            return "/s.php?q="
         }
     }
 }
@@ -38,14 +41,14 @@ extension API: TargetType {
     }
     
     var baseURL: URL {
-        return URL(string: Domain.biquge.rawValue)!
+        return URL(string: Domain.biqudu.rawValue)!
     }
     
     var path: String {
         switch self {
         case .search(let name):
             let newName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            return Domain.biquge.searchPath + "\(newName)"
+            return Domain.biqudu.searchPath + "\(newName)"
         case .page(let page):
             return "\(page)"
         }

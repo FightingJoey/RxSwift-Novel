@@ -61,7 +61,7 @@ class SectionListViewController: UIViewController {
         }).disposed(by: bag)
         
         let dataSource = self.dataSource
-        let path = self.path
+        var path = self.path
         
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT), style: .grouped)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -73,6 +73,9 @@ class SectionListViewController: UIViewController {
             .disposed(by: bag)
         
         HUD.show(.progress)
+        if path.contains("http://www.biqudu.tv") {
+            path = path.replacingOccurrences(of: "http://www.biqudu.tv", with: "")
+        }
         network.rx.request(.page(page: path)).flatMap { res -> Single<[SectionInfo]> in
             guard let doc = try? HTML(html: res.data, encoding: .utf8) else {
                 return Single.create { single in
@@ -104,7 +107,8 @@ class SectionListViewController: UIViewController {
             }
             .subscribe(onNext: { pair in
                 let vc = SectionInfoViewController()
-                vc.path = path + pair.1.path
+                
+                vc.path = pair.1.path
                 vc.sectionTitle = pair.1.title
                 vc.novelTitle = self.novelTitle
 
