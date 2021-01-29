@@ -43,6 +43,9 @@ class SectionListViewController: UIViewController {
         view.backgroundColor = .white
         navigationItem.title = novelTitle
         
+        let rightBarBtn = UIBarButtonItem(title: "直达底部", style: UIBarButtonItem.Style.plain, target: self, action: #selector(goToBottom))
+        navigationItem.rightBarButtonItem = rightBarBtn
+        
         let model = Defaults[\.alreadyReadList] ?? AlreadyModel()
         if let novel = model.data[self.novelTitle] {
             currentIndexPath = novel.currentIndex
@@ -131,6 +134,13 @@ class SectionListViewController: UIViewController {
             }
             sections = sections + []
             subject.onNext(sections)
+        }
+    }
+    
+    @objc func goToBottom() {
+        let offset = self.tableView.contentSize.height - self.tableView.bounds.size.height;
+        if offset > 0 {
+            self.tableView.setContentOffset(CGPoint(x: 0.0, y: offset), animated: true)
         }
     }
     

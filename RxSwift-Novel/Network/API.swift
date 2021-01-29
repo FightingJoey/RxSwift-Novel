@@ -16,20 +16,36 @@ enum API {
     case page(page: String)
 }
 
+enum Domain: String {
+    case biquge = "https://www.biquge.info"
+    case san7 = "https://www.37zw.net"
+}
+
+extension Domain {
+    var searchPath: String {
+        switch self {
+        case .biquge:
+            return "/modules/article/search.php?searchkey="
+        case .san7:
+            return "/s/so.php?type=articlename$s="
+        }
+    }
+}
+
 extension API: TargetType {
     var headers: [String : String]? {
         return nil
     }
     
     var baseURL: URL {
-        return URL(string: "https://www.biquge.info")!
+        return URL(string: Domain.biquge.rawValue)!
     }
     
     var path: String {
         switch self {
         case .search(let name):
             let newName = name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-            return "/modules/article/search.php?searchkey=\(newName)"
+            return Domain.biquge.searchPath + "\(newName)"
         case .page(let page):
             return "\(page)"
         }
