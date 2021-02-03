@@ -53,7 +53,7 @@ platform :ios do
       buildlog_path: "./fastlane/fastlanelog",            # 打包日志输出文件夹
     )
     
-    pgyer(api_key: "fa6b27f9748b39d1254488c27f3faddc", user_key: "f2519c2a713d8a9f29f8b581da6bcf67", install_type: "2", password: "123456")
+    pgyer(api_key: "fa6b27f9748b39d1254488c27f3faddc", user_key: "f2519c2a713d8a9f29f8b581da6bcf67", install_type: "2", password: "123456", update_description: "http://www.loubiqu.com")
 
   end
 end

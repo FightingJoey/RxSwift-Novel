@@ -17,7 +17,7 @@ enum API {
 }
 
 enum Domain: String {
-    case biquge = "https://www.biquge.info"
+    case biquge = "https://www.loubiqu.com"
     case san7 = "https://www.37zw.net"
 }
 
